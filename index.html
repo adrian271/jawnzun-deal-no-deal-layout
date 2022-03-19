@@ -61,8 +61,10 @@
               if (money && money.v === 0) {
                 document.querySelector(`#space-${i + 1} .money`).innerText = 0;
               } else if (money && money.v) {
-                document.querySelector(`#space-${i + 1} .money`).innerText =
-                  money.v;
+                let amount = money.v % 1 === 0 ? money.v : money.v.toFixed(2);
+                document.querySelector(
+                  `#space-${i + 1} .money`
+                ).innerText = amount;
               }
             });
           })
