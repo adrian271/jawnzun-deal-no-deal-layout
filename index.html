@@ -50,13 +50,17 @@
               scoreVals = rows[0].c,
               moneyVals = rows[1].c;
             scoreVals.forEach(function (score, i) {
-              if (score && score.v) {
+              if (score && score.v === 0) {
+                document.querySelector(`#space-${i + 1} .score`).innerText = 0;
+              } else if (score && score.v) {
                 document.querySelector(`#space-${i + 1} .score`).innerText =
                   score.v;
               }
             });
             moneyVals.forEach(function (money, i) {
-              if (money && money.v) {
+              if (money && money.v === 0) {
+                document.querySelector(`#space-${i + 1} .money`).innerText = 0;
+              } else if (money && money.v) {
                 document.querySelector(`#space-${i + 1} .money`).innerText =
                   money.v;
               }
@@ -65,7 +69,7 @@
           .catch((err) => console.error(err));
       }
       getData();
-      setInterval(getData, 5000);
+      setInterval(getData, 4000);
     </script>
     <style>
       /* http://meyerweb.com/eric/tools/css/reset/
