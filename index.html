@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="utf-8" />
+    <title>Sheet API</title>
+  </head>
+  <body>
+    <div class="layout">
+      <div id="space-1" class="space">
+        <p class="score"></p>
+        <p class="money"></p>
+      </div>
+      <div id="space-2" class="space">
+        <p class="score"></p>
+        <p class="money"></p>
+      </div>
+      <div id="space-3" class="space">
+        <p class="score"></p>
+        <p class="money"></p>
+      </div>
+      <div id="space-4" class="space">
+        <p class="score"></p>
+        <p class="money"></p>
+      </div>
+      <div id="space-5" class="space">
+        <p class="score"></p>
+        <p class="money"></p>
+      </div>
+    </div>
+
+    <script>
+      function getData() {
+        let url =
+          //"https://docs.google.com/spreadsheets/d/1FYTYeewTs5vuG5YxkCWSPeytH4CZcu-dJV4Ny8t9Lhw/gviz/tq?&tqx=out:json&sheet=sheet_data&tq=select%20A%2CB%2CC%2CD%2CE%2CF%2CG%2CH%2CI"; //TESTs
+          "https://docs.google.com/spreadsheets/d/1mUKmr_zQ8Ui6XW9pUvnbxEEkWvFn-WzUuNwKrdBqB4g/gviz/tq?&tqx=out:json&sheet=web&tq=select%20A%2CB%2CC%2CD%2CE"; // Gameshow data
+        fetch(url)
+          .then((res) => res.text())
+          .then((data) => {
+            var trimmedString = data.substr(47).slice(0, -2),
+              json = JSON.parse(trimmedString),
+              rows = json.table.rows,
+              scoreVals = rows[0].c,
+              moneyVals = rows[1].c;
+            scoreVals.forEach(function (score, i) {
+              if (score && score.v) {
+                document.querySelector(`#space-${i + 1} .score`).innerText =
+                  score.v;
+              }
+            });
+            moneyVals.forEach(function (money, i) {
+              if (money && money.v) {
+                document.querySelector(`#space-${i + 1} .money`).innerText =
+                  money.v;
+              }
+            });
+          })
+          .catch((err) => console.error(err));
+      }
+      getData();
+      setInterval(getData, 5000);
+    </script>
+    <style>
+      /* http://meyerweb.com/eric/tools/css/reset/
+             v2.0 | 20110126
+             License: none (public domain)
+          */
+
+      html,
+      body,
+      div,
+      span,
+      applet,
+      object,
+      iframe,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      blockquote,
+      pre,
+      a,
+      abbr,
+      acronym,
+      address,
+      big,
+      cite,
+      code,
+      del,
+      dfn,
+      em,
+      img,
+      ins,
+      kbd,
+      q,
+      s,
+      samp,
+      small,
+      strike,
+      strong,
+      sub,
+      sup,
+      tt,
+      var,
+      b,
+      u,
+      i,
+      center,
+      dl,
+      dt,
+      dd,
+      ol,
+      ul,
+      li,
+      fieldset,
+      form,
+      label,
+      legend,
+      table,
+      caption,
+      tbody,
+      tfoot,
+      thead,
+      tr,
+      th,
+      td,
+      article,
+      aside,
+      canvas,
+      details,
+      embed,
+      figure,
+      figcaption,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      output,
+      ruby,
+      section,
+      summary,
+      time,
+      mark,
+      audio,
+      video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article,
+      aside,
+      details,
+      figcaption,
+      figure,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      section {
+        display: block;
+      }
+      body {
+        line-height: 1;
+      }
+      ol,
+      ul {
+        list-style: none;
+      }
+      blockquote,
+      q {
+        quotes: none;
+      }
+      blockquote:before,
+      blockquote:after,
+      q:before,
+      q:after {
+        content: "";
+        content: none;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      /* End Reset */
+      :root {
+        --frame-width: 1920px;
+        --frame-height: 1080px;
+      }
+
+      body {
+        width: 100%;
+        height: 100%;
+        /* background-image: url(http://localhost:4000/layout.png); */
+        background-size: var(--frame-width) var(--frame-height);
+        background-repeat: no-repeat;
+      }
+
+      .layout {
+        width: var(--frame-width);
+        height: var(--frame-height);
+        background: rgba(255, 255, 255, 0.1);
+        position: relative;
+      }
+
+      .space {
+        width: 240px;
+        height: 164px;
+        background: #000;
+        position: absolute;
+        bottom: 122px;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-flow: column nowrap;
+        font-size: 42px;
+        padding: 24px;
+        box-sizing: border-box;
+        font-family: sans-serif;
+        font-weight: 400;
+      }
+
+      .space .score {
+        color: orange;
+      }
+
+      .space .money {
+        color: green;
+      }
+
+      .space .money:before {
+        content: "$";
+      }
+
+      #space-1 {
+        left: 240px;
+      }
+
+      #space-2 {
+        left: 632px;
+      }
+      #space-3 {
+        right: 640px;
+      }
+      #space-4 {
+        right: 260px;
+      }
+      #space-5 {
+        top: 211px;
+        left: 840px;
+        height: 66px;
+        padding: 0;
+        justify-content: center;
+      }
+    </style>
+  </body>
+</html>
