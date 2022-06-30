@@ -13,7 +13,8 @@
     <title>Sheet API</title>
   </head>
   <body>
-    <div id="layout"></div>
+    <div class="layout left"></div>
+    <div class="layout right"></div>
 
     <script>
       function getData() {
@@ -26,24 +27,13 @@
             let trimmedString = data.substr(47).slice(0, -2),
               json = JSON.parse(trimmedString),
               rows = json.table.rows;
-            // numColumn = [], //rows[0].c,
-            // activeColumn = []; //rows[1].c;
-
-            let layout = document.querySelector("#layout");
-            layout.innerHTML = "";
+            console.log(rows);
+            let layoutLeft = document.querySelector(".layout.left");
+            let layoutRight = document.querySelector(".layout.right");
+            layoutLeft.innerHTML = "";
+            layoutRight.innerHTML = "";
             rows.forEach((row, i) => {
-              // numColumn.push(row.c[0].f);
-              // activeColumn.push(row.c[1].v);
-              // if (document.querySelectorAll(`[data-id=${i}]`).length) {
-              //   let item = document.querySelector(`[data-id=${i}]`);
-              //   if (
-              //     row.c[1].v &&
-              //     row.c[1].v.toLowerCase() === "active" &&
-              //     !item.classList("active")
-              //   ) {
-              //     item.classList.add("active");
-              //   }
-              // } else {
+              let layout = i < 12 ? layoutLeft : layoutRight;
               let item = document.createElement("div");
               item.innerText = row.c[0].f;
               item.setAttribute("data-id", i);
@@ -51,15 +41,12 @@
               if (row.c[1].v && row.c[1].v.toLowerCase() === "active")
                 item.classList.add("active");
               layout.append(item);
-              // }
             });
-            // console.log(numColumn);
-            // console.log(activeColumn);
           })
           .catch((err) => console.error(err));
       }
       getData();
-      setInterval(getData, 4000);
+      setInterval(getData, 2000);
     </script>
     <style>
       html,
@@ -201,15 +188,22 @@
         background-repeat: no-repeat;
       }
 
-      #layout {
+      .layout {
         width: var(--frame-width);
         height: var(--frame-height);
         position: relative;
+        width: 50%;
+        float: left;
+      }
+      .layout.right {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-end;
+        justify-content: flex-start;
       }
 
       .item {
         background: #c8a913;
-        background-image: url(https://i.ibb.co/Hrb4fzt/gold.jpg);
         border: 4px solid #000;
         color: #000;
         width: 350px;
@@ -230,6 +224,7 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        background-image: url(./gold.jpg);
       }
     </style>
   </body>
