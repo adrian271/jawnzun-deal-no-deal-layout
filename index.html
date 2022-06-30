@@ -34,13 +34,17 @@
             layoutRight.innerHTML = "";
             rows.forEach((row, i) => {
               let layout = i < 12 ? layoutLeft : layoutRight;
-              let item = document.createElement("div");
-              item.innerText = row.c[0].f;
-              item.setAttribute("data-id", i);
-              item.classList.add("item");
-              if (row.c[1].v && row.c[1].v.toLowerCase() === "active")
-                item.classList.add("active");
-              layout.append(item);
+              if (row.c[1].v) {
+                let item = document.createElement("div");
+                let innerText = i < 18 ? row.c[0].f : row.c[1].v;
+                item.innerText = innerText;
+                item.setAttribute("data-id", i);
+                item.classList.add("item");
+                if (i < 18) item.classList.add("dollar");
+                if (row.c[1].v && row.c[1].v.toLowerCase() === "active")
+                  item.classList.add("active");
+                layout.append(item);
+              }
             });
           })
           .catch((err) => console.error(err));
@@ -210,14 +214,19 @@
         margin-bottom: 10px;
         transition: all 0.5s;
         font-size: 64px;
-        text-align: right;
+        text-align: center;
         padding: 4px 24px;
         opacity: 0.8;
         filter: grayscale(1);
         font-weight: bold;
       }
 
-      .item::before {
+      .item.dollar {
+        text-align: right;
+        background: #c8a913;
+      }
+
+      .item.dollar::before {
         content: "$";
         text-align: left !important;
         float: left;
